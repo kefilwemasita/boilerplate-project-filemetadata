@@ -13,12 +13,12 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-app.post('/api/fileanalyse', upload.single('upfile'), function (req,res)
-{
-  //file..
-  //
-  //
-  res.json({
+app.post('/api/fileanalyse', upload.single('upfile'), (req, res) => {
+  if (!req.file) {
+    return res.json({ error: "No file uploaded" });
+  }
+
+  return res.json({
     name: req.file.originalname,
     type: req.file.mimetype,
     size: req.file.size
